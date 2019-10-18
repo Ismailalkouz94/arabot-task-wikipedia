@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface ArticlesService {
 
-    void saveAll(List<Articles> articlesList);
+    List<Articles> saveAll(List<Articles> articlesList);
 
     List<Articles> findArticlesByTitleOrSnippet(String text);
 

@@ -15,15 +15,15 @@ public interface ArticlesDAO extends JpaRepository<Articles, Long> {
 
     Long countArticlesByIdIsNotNull();
 
+    Articles findFirstByOrderByWordcountDesc();
+
+    Articles findFirstByOrderByWordcountAsc();
+
     @Query("SELECT SUM(a.wordcount) from Articles a")
     long getTotalWordCount();
 
     @Query("SELECT a FROM Articles a  ORDER BY a.wordcount DESC")
     List<Articles> findByTop(Pageable pageable);
-
-    Articles findFirstByOrderByWordcountDesc();
-
-    Articles findFirstByOrderByWordcountAsc();
 
 }
 

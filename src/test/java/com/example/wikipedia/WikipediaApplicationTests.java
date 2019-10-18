@@ -16,6 +16,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import static org.junit.Assert.*;
+
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
@@ -46,8 +48,9 @@ class WikipediaApplicationTests {
             Type listType = new TypeToken<List<Articles>>() {
             }.getType();
             List<Articles> articlesList = new Gson().fromJson(String.valueOf(queryObject.get("search")), listType);
-            articlesService.saveAll(articlesList);
+            List<Articles> storedArticlesList = articlesService.saveAll(articlesList);
 
+            assertEquals(articlesList.size(), storedArticlesList.size());
             logger.info("----------- Exit getWikipediaApiAndStore --------------------");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -64,11 +67,10 @@ class WikipediaApplicationTests {
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
             HttpEntity<List<Articles>> entity = new HttpEntity<>(headers);
-            String searchTesxt="Abdullah";
-            ResponseEntity<List<Articles>> response = restTemplate.exchange(LOCAL_URL + "articles/"+searchTesxt, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Articles>>() {
+            String searchTesxt = "Abdullah";
+            ResponseEntity<List<Articles>> response = restTemplate.exchange(LOCAL_URL + "articles/" + searchTesxt, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Articles>>() {
             });
             List<Articles> articlesList = response.getBody();
-
             logger.info(">>>>>>>>> Result form Database >>>>>>>>>>> ");
             articlesList.forEach(x -> logger.info(x));
 
@@ -91,12 +93,12 @@ class WikipediaApplicationTests {
             String result = restTemplate.exchange(LOCAL_URL + "articles", HttpMethod.GET, entity, String.class).getBody();
             JSONObject jsonObject = new JSONObject(result);
 
+            assertNotNull(jsonObject);
             logger.info(">>>>>>>>> Result form API >>>>>>>>>>> " + jsonObject);
             logger.info(">>>>>>>>> largest >>>>>>>>>>> " + jsonObject.get("largest"));
             logger.info(">>>>>>>>> Smallest >>>>>>>>>>> " + jsonObject.get("smallest"));
-            logger.info(">>>>>>>>> Median >>>>>>>>>>> " + jsonObject.get("median"));
-            logger.info(">>>>>>>>> Total >>>>>>>>>>> " + jsonObject.get("total"));
-
+            logger.info(">>>>>>>>> Mediam >>>>>>>>>>> " + jsonObject.get("mediam"));
+            logger.info(">>>>>>>>> allTotal >>>>>>>>>>> " + jsonObject.get("allTotal"));
             logger.info("----------- Exit testStatisticsApi --------------------");
         } catch (Exception e) {
             e.printStackTrace();

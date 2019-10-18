@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,17 +17,18 @@ import java.util.Map;
 public class ArticlesServiceImpl implements ArticlesService {
     private static final Logger logger = LogManager.getLogger(ArticlesServiceImpl.class);
 
-
     @Autowired
     ArticlesDAO articlesDAO;
 
-    public void saveAll(List<Articles> articlesList) {
+    public List<Articles> saveAll(List<Articles> articlesList) {
+        List<Articles> savedRow = new ArrayList<>();
         try {
-            List<Articles> savedRow = articlesDAO.saveAll(articlesList);
-            logger.info(">>>>>>>> Row saved in DB >>>>>>>>" + savedRow.size());
+             savedRow = articlesDAO.saveAll(articlesList);
+            logger.info(">>>>>>>> Rows Stored in DB >>>>>>>> " + savedRow.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return savedRow;
     }
 
     @Override
@@ -47,8 +49,8 @@ public class ArticlesServiceImpl implements ArticlesService {
             count = (int) (articlesDAO.countArticlesByIdIsNotNull() / 2);
             statistics.put("smallest", articlesDAO.findFirstByOrderByWordcountAsc());
             statistics.put("largest", articlesDAO.findFirstByOrderByWordcountDesc());
-            statistics.put("median", articlesDAO.findByTop(PageRequest.of(count, count)));
-            statistics.put("total", articlesDAO.getTotalWordCount());
+            statistics.put("mediam", articlesDAO.findByTop(PageRequest.of(count, count)));
+            statistics.put("allTotal", articlesDAO.getTotalWordCount());
 
         } catch (Exception e) {
             e.printStackTrace();
