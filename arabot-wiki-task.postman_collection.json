@@ -1,0 +1,51 @@
+{
+	"info": {
+		"_postman_id": "5005cb64-cc83-4c8e-98f0-cfffb6fc19b4",
+		"name": "arabot-wiki-task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/wikipedia/articles/Exchange",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wikipedia",
+						"articles",
+						"Exchange"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "statistics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/wikipedia/articles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wikipedia",
+						"articles"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
